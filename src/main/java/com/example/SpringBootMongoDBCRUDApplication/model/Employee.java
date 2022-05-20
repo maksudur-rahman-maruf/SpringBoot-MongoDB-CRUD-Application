@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document (collection = "Employee")
 public class Employee {
 
@@ -19,16 +21,27 @@ public class Employee {
 
     @Indexed(unique=true)
 	private String emailId;
+
+    private List<Department> department;
 	
 	public Employee() {
 	}
-	
-	public Employee(String firstName, String lastName, String emailId) {
+
+	public Employee(String firstName, String lastName, String emailId, List<Department> department) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailId = emailId;
+		this.department = department;
 	}
-	
+
+	public List<Department> getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(List<Department> department) {
+		this.department = department;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -57,9 +70,12 @@ public class Employee {
 		this.emailId = emailId;
 	}
 
+
 	@Override
 	public String toString() {
 		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", emailId=" + emailId
 				+ "]";
-	}	
+	}
+
+
 }

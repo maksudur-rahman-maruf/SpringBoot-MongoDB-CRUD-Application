@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.example.SpringBootMongoDBCRUDApplication.exception.ResourceNotFoundException;
 import com.example.SpringBootMongoDBCRUDApplication.model.Employee;
+import com.example.SpringBootMongoDBCRUDApplication.model.EmployeeDto;
 import com.example.SpringBootMongoDBCRUDApplication.repository.EmployeeRepository;
 import com.example.SpringBootMongoDBCRUDApplication.service.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,21 +45,33 @@ public class EmployeeController {
 		return ResponseEntity.ok().body(employee);
 	}
 
+	@GetMapping("/employees/{emailId}/departments/{head}")
+	public ResponseEntity<Employee> getEmployeeByEmailIdAndHead(@PathVariable(value = "emailId") String emailId, @PathVariable(value = "head") String head) {
+		Employee employee = employeeRepository.findByEmailIdAndHead(emailId, head);
+		return ResponseEntity.ok().body(employee);
+	}
+
 	@PostMapping("/employees")
-	public Employee createEmployee( @RequestBody Employee employee) {
+	public Employee createEmployee(@RequestBody EmployeeDto employeeDto) {
+		Employee employee = new Employee();
 		employee.setId(sequenceGeneratorService.generateSequence(Employee.SEQUENCE_NAME));
+		employee.setFirstName(employeeDto.getFirstName());
+		employee.setLastName(employeeDto.getLastName());
+		employee.setEmailId(employeeDto.getEmailId());
+		employee.setDepartment(employeeDto.getDepartment());
 		return employeeRepository.save(employee);
 	}
 
 	@PutMapping("/employees/{id}")
 	public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "id") Long employeeId,
-			@RequestBody Employee employeeDetails) throws ResourceNotFoundException {
+			@RequestBody EmployeeDto employeeDto) throws ResourceNotFoundException {
 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
 
-		employee.setEmailId(employeeDetails.getEmailId());
-		employee.setLastName(employeeDetails.getLastName());
-		employee.setFirstName(employeeDetails.getFirstName());
+		employee.setEmailId(employeeDto.getEmailId());
+		employee.setLastName(employeeDto.getLastName());
+		employee.setFirstName(employeeDto.getFirstName());
+		employee.setDepartment(employeeDto.getDepartment());
 		final Employee updatedEmployee = employeeRepository.save(employee);
 		return ResponseEntity.ok(updatedEmployee);
 	}
