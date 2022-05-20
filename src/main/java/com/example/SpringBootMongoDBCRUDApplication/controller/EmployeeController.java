@@ -46,8 +46,10 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/employees/{emailId}/departments/{head}")
-	public ResponseEntity<Employee> getEmployeeByEmailIdAndHead(@PathVariable(value = "emailId") String emailId, @PathVariable(value = "head") String head) {
-		Employee employee = employeeRepository.findByEmailIdAndHead(emailId, head);
+	public ResponseEntity<Employee> getEmployeeByEmailIdAndDepartmentHead(@PathVariable(value = "emailId") String emailId, @PathVariable(value = "head") String head) {
+		Employee employee = employeeRepository.findByEmailIdAndDepartmentHead(emailId, head);
+//		Employee employee = employeeRepository.findByEmailIdAndHead(emailId, head);
+
 		return ResponseEntity.ok().body(employee);
 	}
 

@@ -8,6 +8,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmployeeRepository extends MongoRepository<Employee, Long>{
-    @Query("{ 'emailId': ?0, 'department.head': ?1}")
-    public Employee findByEmailIdAndHead(String id, String head);
+
+    public Employee findByEmailIdAndDepartmentHead(String id, String head);
+//    Another Way ->
+//    @Query("{ 'emailId': ?0, 'department.head': ?1}")
+//    public Employee findByEmailIdAndHead(String id, String head);
+
 }
