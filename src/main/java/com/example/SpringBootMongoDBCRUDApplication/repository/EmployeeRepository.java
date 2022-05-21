@@ -16,6 +16,8 @@ public interface EmployeeRepository extends MongoRepository<Employee, Long>{
 
     //--------------------------------custom query methods------------------------
 
+//    https://www.mongodb.com/docs/v4.0/tutorial/query-documents/
+
 //    @Query("{id :?0}")                                                  //SQL Equivalent : SELECT * FROM BOOK WHERE ID=?
 //    Optional<Book> getBookById(Integer id);
 //
